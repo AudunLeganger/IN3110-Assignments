@@ -28,6 +28,8 @@ class Array:
             raise Exception("Array not homogenous")
 
         # Check if the values are of valid types
+        if not self.check_type_validity(values):
+            raise Exception("Array data type not valid")
 
         # Check that the amount of values corresponds to the shape
 
@@ -41,6 +43,13 @@ class Array:
             if data_type is not type(element):
                 return False
         return True
+    
+    # Checks for valid data types
+    def check_type_validity(self,values):
+        data_type = str(type(values[0]))
+        if data_type == "<class 'int'>" or data_type == "<class 'str'>" or data_type == "<class 'float'>":
+            return True
+        return False
     
     def __str__(self):
         """Returns a nicely printable string representation of the array.
