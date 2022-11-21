@@ -10,7 +10,6 @@ class Array:
         - int
         - float
         - bool
-
         Make sure the values and shape are of the correct type.
 
         Make sure that you check that your array actually is an array, which means it is homogeneous (one data type).
@@ -24,6 +23,9 @@ class Array:
             ValueError: If the values are not all of the same type.
             ValueError: If the number of values does not fit with the shape.
         """
+        # Checks if values are homogenous
+        if not self.check_homogenous(values):
+            raise Exception("Array not homogenous")
 
         # Check if the values are of valid types
 
@@ -31,8 +33,18 @@ class Array:
 
         # Set instance attributes
 
-        pass
 
+    # Checks for datatype homogeniety
+    def check_homogenous(self,values):
+        data_type = None
+        for element in values:
+            if data_type == None:
+                data_type = type(element)
+            else:
+                if data_type != type(element):
+                    return False
+        return True
+    
     def __str__(self):
         """Returns a nicely printable string representation of the array.
 
@@ -195,3 +207,6 @@ class Array:
         """
 
         pass
+
+def print_greet():
+    print("hei på deg")
