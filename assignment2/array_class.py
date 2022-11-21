@@ -32,6 +32,8 @@ class Array:
             raise Exception("Array data type not valid")
 
         # Check that the amount of values corresponds to the shape
+        if not self.check_shape_validity(shape, values):
+            raise Exception("Array data shape not valid")
 
         # Set instance attributes
 
@@ -47,9 +49,17 @@ class Array:
     # Checks for valid data types
     def check_type_validity(self,values):
         data_type = str(type(values[0]))
-        if data_type == "<class 'int'>" or data_type == "<class 'str'>" or data_type == "<class 'float'>":
+        if data_type == "<class 'int'>" or data_type == "<class 'float'>" or data_type == "<class 'bool'>":
             return True
         return False
+
+    # Checks for shape validity
+    def check_shape_validity(self, shape, values):
+        prod = 1
+        for length in shape:
+            prod = prod * length
+        return prod == len(values)
+        
     
     def __str__(self):
         """Returns a nicely printable string representation of the array.
@@ -213,6 +223,3 @@ class Array:
         """
 
         pass
-
-def print_greet():
-    print("hei på deg")
