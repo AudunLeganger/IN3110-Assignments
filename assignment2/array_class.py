@@ -36,13 +36,10 @@ class Array:
 
     # Checks for datatype homogeniety
     def check_homogenous(self,values):
-        data_type = None
+        data_type = type(values[0])
         for element in values:
-            if data_type == None:
-                data_type = type(element)
-            else:
-                if data_type != type(element):
-                    return False
+            if data_type is not type(element):
+                return False
         return True
     
     def __str__(self):
