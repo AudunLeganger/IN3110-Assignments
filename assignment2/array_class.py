@@ -78,6 +78,9 @@ class Array:
         print_string = print_string + str(self.values[-1]) + "]"
         return print_string
 
+    def __getitem__(self, index):
+        return self.values[index]
+
     def __add__(self, other):
         """Element-wise adds Array with another Array or number.
 
