@@ -37,7 +37,9 @@ class Array:
 
         # Set instance attributes
         self.shape = shape
-        self.values = values
+        self.values = []
+        for value in values:
+            self.values.append(value)
 
 
     # Checks for datatype homogeniety
@@ -45,7 +47,6 @@ class Array:
         data_type = type(values[0])
         for element in values:
             if data_type is not type(element):
-                print("ERROR! data_type: %s, type(element): %s" % (data_type, type(element)))
                 return False
         self.data_type = type(values[0])
         return True
@@ -54,7 +55,7 @@ class Array:
     def check_type_validity(self,values):
         data_type = str(self.data_type)
         print(data_type)
-        if data_type == "<class 'int'>" or data_type == "<class 'float'>" or data_type == "<class 'bool'>" or data_type == "<class 'complex":
+        if data_type == "<class 'int'>" or data_type == "<class 'float'>" or data_type == "<class 'bool'>" or data_type == "<class 'complex'>":
             return True
         return False
 
@@ -64,6 +65,9 @@ class Array:
         for length in shape:
             prod = prod * length
         return prod == len(values)
+    
+    def get_shape(self):
+        return self.shape
     
     def __str__(self):
         """Returns a nicely printable string representation of the array.
@@ -94,7 +98,27 @@ class Array:
             Array: the sum as a new array.
 
         """
+        if str(type(other)) == "<class 'int'>":
+            for i in range(len(self.values)):
+                self.values[i] = self.values[i] + other
+            return self.values
 
+        type_other = str(type(other[0]))
+        if type_other != str(self.data_type):
+            print(type_other, str)
+            raise TypeError("Type mismatch.")
+        
+
+        elif other.get_shape() != self.shape:
+            raise ValueError("Shape mismatch.")
+
+        if type_other == "<class 'boolean'>":
+            raise TypeError("Not implemented.")
+        
+        elif type_other == "<class 'float'>" or type_other == "<class 'complex'>" or type_other == "<class 'int'>":
+            for i in range(len(self.values)):
+                self.values[i] = self.values[i] + other[i]
+            return self.values
         # check that the method supports the given arguments (check for data type and shape of array)
         # if the array is a boolean you should return NotImplemented
 
