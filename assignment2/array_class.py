@@ -36,6 +36,8 @@ class Array:
             raise Exception("Array data shape not valid")
 
         # Set instance attributes
+        self.shape = shape
+        self.values = values
 
 
     # Checks for datatype homogeniety
@@ -43,13 +45,16 @@ class Array:
         data_type = type(values[0])
         for element in values:
             if data_type is not type(element):
+                print("ERROR! data_type: %s, type(element): %s" % (data_type, type(element)))
                 return False
+        self.data_type = type(values[0])
         return True
     
     # Checks for valid data types
     def check_type_validity(self,values):
-        data_type = str(type(values[0]))
-        if data_type == "<class 'int'>" or data_type == "<class 'float'>" or data_type == "<class 'bool'>":
+        data_type = str(self.data_type)
+        print(data_type)
+        if data_type == "<class 'int'>" or data_type == "<class 'float'>" or data_type == "<class 'bool'>" or data_type == "<class 'complex":
             return True
         return False
 
@@ -59,7 +64,6 @@ class Array:
         for length in shape:
             prod = prod * length
         return prod == len(values)
-        
     
     def __str__(self):
         """Returns a nicely printable string representation of the array.
@@ -68,7 +72,11 @@ class Array:
             str: A string representation of the array.
 
         """
-        pass
+        print_string = "["
+        for i in range(len(self.values)-1):
+            print_string = print_string + str(self.values[i]) + ", "
+        print_string = print_string + str(self.values[-1]) + "]"
+        return print_string
 
     def __add__(self, other):
         """Element-wise adds Array with another Array or number.
