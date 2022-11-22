@@ -83,14 +83,14 @@ class Array:
     def is_similar(self, other):
         return self.is_same_shape(other) and self.is_same_type(other)
     
-    def is_int(self):
-        return str(self.data_type) == "<class 'int'>"
+    def is_int(other):
+        return str(type(other)) == "<class 'int'>"
     
-    def is_float(self):
-        return str(self.data_type) == "<class 'float'>"
+    def is_float(other):
+        return str(type(other)) == "<class 'float'>"
 
-    def is_bool(self):
-        return str(self.data_type) == "<class 'bool'>"
+    def is_bool(other):
+        return str(type(other)) == "<class 'bool'>"
     
     # Returns a formated string displaying the array contents
     def __str__(self):
@@ -281,6 +281,8 @@ class Array:
             bool: True if the two arrays are equal (identical). False otherwise.
 
         """
+        if type(self) != type(other):
+            return False
         if self.data_type != other.data_type:
             return False
         for i in range(len(self.values)):
@@ -306,6 +308,16 @@ class Array:
             ValueError: if the shape of self and other are not equal.
 
         """
+        print (self.data_type, type(other))
+        if self.data_type == type(other) or str(type(other)):
+            equal_list = []
+            for i in range(len(self.values)):
+                equal_list.append(self[i] == other)
+            return Array(self.shape, *equal_list)
+        
+        if str(type(other)) != "<class array_class.Array>":
+            raise TypeError("Can't compare object to non-array")
+        
         if not self.is_same_shape(other):
             raise ValueError("Arrays have different shapes")
         elif not self.is_same_type(other):

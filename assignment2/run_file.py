@@ -1,6 +1,6 @@
 from array_class import *
 
-array1 = Array((3,), 1,2,3)
+array1 = Array((3,), 1,5,3)
 array2 = Array((3,), 5.0, 2.0, 5.0)
 array3 = Array((4,), 1.3, 0.0, 2.5, 3.5)
 array4 = Array((4,), 0.0, 1.0, 2.0, 3.0)
@@ -16,4 +16,5 @@ print(array2 == array2)
 print(array1 == array6)
 
 print(array1.is_equal(array1))
-print(str(array5.data_type))
+print(array1.is_equal(5))
+print(array3.is_equal(2.5))
