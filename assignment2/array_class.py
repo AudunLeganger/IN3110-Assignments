@@ -54,7 +54,6 @@ class Array:
     # Checks for valid data types
     def check_type_validity(self,values):
         data_type = str(self.data_type)
-        print(data_type)
         if data_type == "<class 'int'>" or data_type == "<class 'float'>" or data_type == "<class 'bool'>" or data_type == "<class 'complex'>":
             return True
         return False
@@ -66,9 +65,11 @@ class Array:
             prod = prod * length
         return prod == len(values)
     
+    # Returns shape of the array object
     def get_shape(self):
         return self.shape
     
+    # Returns a formated string displaying the array contents
     def __str__(self):
         """Returns a nicely printable string representation of the array.
 
@@ -82,8 +83,54 @@ class Array:
         print_string = print_string + str(self.values[-1]) + "]"
         return print_string
 
+
     def __getitem__(self, index):
+        """Returns whatever data is stored at the given index.
+        """
         return self.values[index]
+
+
+    def perform_scalar_operation(self, other, operator):
+        """Performs a mathematical scalar operation on the array, and returns the resulting array object."""
+        values = []
+        for value in self.values:
+            values.append(value)
+
+        if operator == "+":
+            for i in range(len(values)):
+                values[i] = values[i] + other
+
+        elif operator == "-":
+            for i in range(len(values)):
+                values[i] = values[i] - other
+
+        elif operator == "*":
+            for i in range(len(values)):
+                values[i] = values[i] * other
+        result_array = Array(self.shape, *values)
+        return result_array
+
+        
+    def perform_array_operator(self, other, operator):
+        """Performs a mathematical array operation on the array, and returns the resulting array object."""
+        values = []
+        for value in self.values:
+            values.append(value)
+            
+        if operator == "+":
+            for i in range(len(values)):
+                values[i] = values[i] + other[i]
+
+        elif operator == "-":
+            for i in range(len(values)):
+                values[i] = values[i] - other[i]
+
+        elif operator == "*":
+            for i in range(len(values)):
+                values[i] = values[i] * other[i]
+        
+        result_array = Array(self.shape, *values)
+        return result_array
 
     def __add__(self, other):
         """Element-wise adds Array with another Array or number.
@@ -98,31 +145,29 @@ class Array:
             Array: the sum as a new array.
 
         """
-        if str(type(other)) == "<class 'int'>":
-            for i in range(len(self.values)):
-                self.values[i] = self.values[i] + other
-            return self.values
 
+        # Checks for addition with integers
+        if str(type(other)) == "<class 'int'>":
+            return self.perform_scalar_operation(other,"+")
+
+        # Checks for data type mismatch
         type_other = str(type(other[0]))
         if type_other != str(self.data_type):
-            print(type_other, str)
             raise TypeError("Type mismatch.")
         
-
+        # Checks for shape mismatch
         elif other.get_shape() != self.shape:
             raise ValueError("Shape mismatch.")
 
+        # Checks for addition with booleans
         if type_other == "<class 'boolean'>":
             raise TypeError("Not implemented.")
         
+        # Checks for element-wise array addition
         elif type_other == "<class 'float'>" or type_other == "<class 'complex'>" or type_other == "<class 'int'>":
-            for i in range(len(self.values)):
-                self.values[i] = self.values[i] + other[i]
-            return self.values
+            return self.perform_array_operator(other,"+")
         # check that the method supports the given arguments (check for data type and shape of array)
         # if the array is a boolean you should return NotImplemented
-
-        pass
 
     def __radd__(self, other):
         """Element-wise adds Array with another Array or number.
@@ -137,6 +182,7 @@ class Array:
             Array: the sum as a new array.
 
         """
+        # return self.__add__(other)
         pass
 
     def __sub__(self, other):
@@ -152,7 +198,29 @@ class Array:
             Array: the difference as a new array.
 
         """
-        pass
+        if str(type(other)) == "<class 'int'>":
+            for i in range(len(self.values)):
+                self.values[i] = self.values[i] - other
+            return self.values
+
+        # Checks for data type mismatch
+        type_other = str(type(other[0]))
+        if type_other != str(self.data_type):
+            raise TypeError("Type mismatch.")
+        
+        # Checks for shape mismatch
+        elif other.get_shape() != self.shape:
+            raise ValueError("Shape mismatch.")
+
+        # Checks for addition with booleans
+        if type_other == "<class 'boolean'>":
+            raise TypeError("Not implemented.")
+        
+        # Checks for element-wise array addition
+        elif type_other == "<class 'float'>" or type_other == "<class 'complex'>" or type_other == "<class 'int'>":
+            for i in range(len(self.values)):
+                self.values[i] = self.values[i] - other[i]
+            return self.values
 
     def __rsub__(self, other):
         """Element-wise subtracts this Array from a number or Array.
