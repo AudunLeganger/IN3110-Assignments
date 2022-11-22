@@ -308,14 +308,13 @@ class Array:
             ValueError: if the shape of self and other are not equal.
 
         """
-        print (self.data_type, type(other))
-        if self.data_type == type(other) or str(type(other)):
+        if self.data_type == type(other):
             equal_list = []
             for i in range(len(self.values)):
                 equal_list.append(self[i] == other)
             return Array(self.shape, *equal_list)
         
-        if str(type(other)) != "<class array_class.Array>":
+        if str(type(other)) != "<class 'array_class.Array'>":
             raise TypeError("Can't compare object to non-array")
         
         if not self.is_same_shape(other):

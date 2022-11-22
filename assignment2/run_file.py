@@ -16,5 +16,5 @@ print(array2 == array2)
 print(array1 == array6)
 
 print(array1.is_equal(array1))
-print(array1.is_equal(5))
+print(array3.is_equal(5.0))
 print(array3.is_equal(2.5))
