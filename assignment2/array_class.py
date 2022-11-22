@@ -97,6 +97,21 @@ class Array:
         """
         return self.values[index]
 
+    def perform_mathematical_operation(self, other, operator):
+        """Performs a mathematical operation on the array, and returns the resulting array object."""
+        if self.data_type == type(other):
+            return self.perform_scalar_operation(other,operator)
+
+        elif str(type(other)) == "<class 'array_class.Array'>":
+            if self.data_type == other.data_type:
+                if self.is_same_shape(other):
+                    return self.perform_array_operator(other, operator)
+                else:
+                    raise ValueError("Shape mismatch")
+            else:
+                raise NotImplemented("Operation for this datatype is not implemented")
+        else:
+            raise NotImplemented("Operation for this datatype is not implemented")
 
     def perform_scalar_operation(self, other, operator):
         """Performs a mathematical scalar operation on the array, and returns the resulting array object."""
@@ -153,27 +168,7 @@ class Array:
             Array: the sum as a new array.
 
         """
-
-        # Checks for addition with integers
-        if str(type(other)) == "<class 'int'>":
-            return self.perform_scalar_operation(other,"+")
-
-        # Checks for data type mismatch
-        type_other = str(type(other[0]))
-        if type_other != str(self.data_type):
-            raise TypeError("Type mismatch.")
-        
-        # Checks for shape mismatch
-        elif self.is_same_shape(other):
-            raise ValueError("Shape mismatch.")
-
-        # Checks for addition with booleans
-        if type_other == "<class 'boolean'>":
-            raise TypeError("Not implemented.")
-        
-        # Checks for element-wise array addition
-        elif type_other == "<class 'float'>" or type_other == "<class 'complex'>" or type_other == "<class 'int'>":
-            return self.perform_array_operator(other,"+")
+        return self.perform_mathematical_operation(other, "+")
         # check that the method supports the given arguments (check for data type and shape of array)
         # if the array is a boolean you should return NotImplemented
 
@@ -206,25 +201,8 @@ class Array:
 
         """
         # Checks for addition with integers
-        if str(type(other)) == "<class 'int'>":
-            return self.perform_scalar_operation(other,"-")
+        return self.perform_mathematical_operation(other, "-")
 
-        # Checks for data type mismatch
-        type_other = str(type(other[0]))
-        if type_other != str(self.data_type):
-            raise TypeError("Type mismatch.")
-        
-        # Checks for shape mismatch
-        elif self.is_same_shape(other):
-            raise ValueError("Shape mismatch.")
-
-        # Checks for addition with booleans
-        if type_other == "<class 'boolean'>":
-            raise TypeError("Not implemented.")
-        
-        # Checks for element-wise array addition
-        elif type_other == "<class 'float'>" or type_other == "<class 'complex'>" or type_other == "<class 'int'>":
-            return self.perform_array_operator(other,"-")
 
     def __rsub__(self, other):
         """Element-wise subtracts this Array from a number or Array.
@@ -256,26 +234,8 @@ class Array:
             Array: a new array with every element multiplied with `other`.
 
         """
-        # Checks for addition with integers
-        if str(type(other)) == "<class 'int'>":
-            return self.perform_scalar_operation(other,"*")
+        return self.perform_mathematical_operation(other, "*")
 
-        # Checks for data type mismatch
-        type_other = str(type(other[0]))
-        if type_other != str(self.data_type):
-            raise TypeError("Type mismatch.")
-        
-        # Checks for shape mismatch
-        elif not self.is_same_shape(other):
-            raise ValueError("Shape mismatch.")
-
-        # Checks for addition with booleans
-        if type_other == "<class 'boolean'>":
-            raise TypeError("Not implemented.")
-        
-        # Checks for element-wise array addition
-        elif type_other == "<class 'float'>" or type_other == "<class 'complex'>" or type_other == "<class 'int'>":
-            return self.perform_array_operator(other,"*")
 
     def __rmul__(self, other):
         """Element-wise multiplies this Array with a number or array.
