@@ -77,6 +77,12 @@ class Array:
         else:
             return state
     
+    def is_same_type(self, other):
+        return self.data_type == other.data_type
+    
+    def is_similar(self, other):
+        return self.is_same_shape(other) and self.is_same_type(other)
+    
     # Returns a formated string displaying the array contents
     def __str__(self):
         """Returns a nicely printable string representation of the array.
@@ -103,7 +109,7 @@ class Array:
             return self.perform_scalar_operation(other,operator)
 
         elif str(type(other)) == "<class 'array_class.Array'>":
-            if self.data_type == other.data_type:
+            if self.is_same_type(other):
                 if self.is_same_shape(other):
                     return self.perform_array_operator(other, operator)
                 else:
@@ -266,7 +272,9 @@ class Array:
             bool: True if the two arrays are equal (identical). False otherwise.
 
         """
-        for i in range(self.values.length()):
+        if self.data_type != other.data_type:
+            return False
+        for i in range(len(self.values)):
             if self.values[i] != other[i]:
                 return False
         return True
@@ -289,7 +297,16 @@ class Array:
             ValueError: if the shape of self and other are not equal.
 
         """
-        pass
+        if not self.is_same_shape(other):
+            raise ValueError("Arrays have different shapes")
+        elif not self.is_same_type(other):
+            raise TypeError("Arrays contain different data-types")
+        else:
+            equal_list = []
+            for i in range(len(self.values)):
+                equal_list.append(self[i] == other[i])
+            return Array(self.shape, *equal_list)
+            
 
 
     def min_element(self):
