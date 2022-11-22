@@ -338,8 +338,16 @@ class Array:
             float: The value of the smallest element in the array.
 
         """
-
-        pass
+        if self.is_bool():
+            raise TypeError("Can't sort array elements of boolean type")
+        min_val = None
+        for i in range(len(self.values)):
+            try:
+                if min_val > self.values[i]:
+                    min_val = self.values(i)
+            except TypeError:
+                min_val = self.values[i]
+        return float(min_val)
 
     def mean_element(self):
         """Returns the mean value of an array
@@ -349,5 +357,9 @@ class Array:
         Returns:
             float: the mean value
         """
-
-        pass
+        if self.is_bool():
+            raise TypeError("Can't sort array elements of boolean type")
+        sum = 0
+        for i in range(len(self.values)):
+            sum = sum + self.values[i]
+        return float(sum / len(self.values))
