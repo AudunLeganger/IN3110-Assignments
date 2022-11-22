@@ -24,16 +24,13 @@ class Array:
             ValueError: If the number of values does not fit with the shape.
         """
         # Checks if values are homogenous
-        if not self.check_homogenous(values):
-            raise Exception("Array not homogenous")
+        self.check_homogenous(values)
 
         # Check if the values are of valid types
-        if not self.check_type_validity(values):
-            raise Exception("Array data type not valid")
+        self.check_type_validity(values)
 
         # Check that the amount of values corresponds to the shape
-        if not self.check_shape_validity(shape, values):
-            raise Exception("Array data shape not valid")
+        self.check_shape_validity(shape,values)
 
         # Set instance attributes
         self.shape = shape
@@ -47,15 +44,14 @@ class Array:
         data_type = type(values[0])
         for element in values:
             if data_type is not type(element):
-                return False
+                raise ValueError("Array not homogenous")
         self.data_type = type(values[0])
-        return True
     
     # Checks for valid data types
     def check_type_validity(self,values):
         data_type = str(self.data_type)
-        if data_type == "<class 'int'>" or data_type == "<class 'float'>" or data_type == "<class 'bool'>" or data_type == "<class 'complex'>":
-            return True
+        if data_type != "<class 'int'>" and data_type != "<class 'float'>" and data_type != "<class 'bool'>" and data_type != "<class 'complex'>":
+            raise TypeError("Array elements of wrong data type: " + data_type)
         return False
 
     # Checks for shape validity
@@ -63,11 +59,23 @@ class Array:
         prod = 1
         for length in shape:
             prod = prod * length
-        return prod == len(values)
+        if str(type(shape)) != "<class 'tuple'>":
+            raise TypeError("Shape argument is not type 'tuple'")
+        if prod != len(values):
+            raise ValueError("Shape dimensions do not match values")
     
     # Returns shape of the array object
     def get_shape(self):
         return self.shape
+    
+    # Returns true if "other" has the same size as the current object
+    def is_same_shape(self, other):
+        try:
+            state = self.get_shape() == other.get_shape()
+        except:
+            return False
+        else:
+            return state
     
     # Returns a formated string displaying the array contents
     def __str__(self):
@@ -156,7 +164,7 @@ class Array:
             raise TypeError("Type mismatch.")
         
         # Checks for shape mismatch
-        elif other.get_shape() != self.shape:
+        elif self.is_same_shape(other):
             raise ValueError("Shape mismatch.")
 
         # Checks for addition with booleans
@@ -207,7 +215,7 @@ class Array:
             raise TypeError("Type mismatch.")
         
         # Checks for shape mismatch
-        elif other.get_shape() != self.shape:
+        elif self.is_same_shape(other):
             raise ValueError("Shape mismatch.")
 
         # Checks for addition with booleans
@@ -258,7 +266,7 @@ class Array:
             raise TypeError("Type mismatch.")
         
         # Checks for shape mismatch
-        elif other.get_shape() != self.shape:
+        elif not self.is_same_shape(other):
             raise ValueError("Shape mismatch.")
 
         # Checks for addition with booleans
@@ -298,7 +306,10 @@ class Array:
             bool: True if the two arrays are equal (identical). False otherwise.
 
         """
-        pass
+        for i in range(self.values.length()):
+            if self.values[i] != other[i]:
+                return False
+        return True
 
     def is_equal(self, other):
         """Compares an Array element-wise with another Array or number.
@@ -318,8 +329,8 @@ class Array:
             ValueError: if the shape of self and other are not equal.
 
         """
-
         pass
+
 
     def min_element(self):
         """Returns the smallest value of the array.
