@@ -182,8 +182,7 @@ class Array:
             Array: the sum as a new array.
 
         """
-        # return self.__add__(other)
-        pass
+        return self.__add__(other)
 
     def __sub__(self, other):
         """Element-wise subtracts an Array or number from this Array.
@@ -198,10 +197,9 @@ class Array:
             Array: the difference as a new array.
 
         """
+        # Checks for addition with integers
         if str(type(other)) == "<class 'int'>":
-            for i in range(len(self.values)):
-                self.values[i] = self.values[i] - other
-            return self.values
+            return self.perform_scalar_operation(other,"-")
 
         # Checks for data type mismatch
         type_other = str(type(other[0]))
@@ -218,9 +216,7 @@ class Array:
         
         # Checks for element-wise array addition
         elif type_other == "<class 'float'>" or type_other == "<class 'complex'>" or type_other == "<class 'int'>":
-            for i in range(len(self.values)):
-                self.values[i] = self.values[i] - other[i]
-            return self.values
+            return self.perform_array_operator(other,"-")
 
     def __rsub__(self, other):
         """Element-wise subtracts this Array from a number or Array.
@@ -235,7 +231,9 @@ class Array:
             Array: the difference as a new array.
 
         """
-        pass
+        # 10-Array1
+        # return -1 * Array1 + 10
+        return (self.__mul__(-1) + other)
 
     def __mul__(self, other):
         """Element-wise multiplies this Array with a number or array.
@@ -250,7 +248,26 @@ class Array:
             Array: a new array with every element multiplied with `other`.
 
         """
-        pass
+        # Checks for addition with integers
+        if str(type(other)) == "<class 'int'>":
+            return self.perform_scalar_operation(other,"*")
+
+        # Checks for data type mismatch
+        type_other = str(type(other[0]))
+        if type_other != str(self.data_type):
+            raise TypeError("Type mismatch.")
+        
+        # Checks for shape mismatch
+        elif other.get_shape() != self.shape:
+            raise ValueError("Shape mismatch.")
+
+        # Checks for addition with booleans
+        if type_other == "<class 'boolean'>":
+            raise TypeError("Not implemented.")
+        
+        # Checks for element-wise array addition
+        elif type_other == "<class 'float'>" or type_other == "<class 'complex'>" or type_other == "<class 'int'>":
+            return self.perform_array_operator(other,"*")
 
     def __rmul__(self, other):
         """Element-wise multiplies this Array with a number or array.
