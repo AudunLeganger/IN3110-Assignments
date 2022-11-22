@@ -83,6 +83,15 @@ class Array:
     def is_similar(self, other):
         return self.is_same_shape(other) and self.is_same_type(other)
     
+    def is_int(self):
+        return str(self.data_type) == "<class 'int'>"
+    
+    def is_float(self):
+        return str(self.data_type) == "<class 'float'>"
+
+    def is_bool(self):
+        return str(self.data_type) == "<class 'bool'>"
+    
     # Returns a formated string displaying the array contents
     def __str__(self):
         """Returns a nicely printable string representation of the array.

@@ -16,3 +16,4 @@ print(array2 == array2)
 print(array1 == array6)
 
 print(array1.is_equal(array1))
+print(str(array5.data_type))
