@@ -118,7 +118,9 @@ class Array:
             return self.perform_scalar_operation(other,operator)
 
         elif str(type(other)) == "<class 'array_class.Array'>":
-            if self.is_same_type(other):
+            if str(self.data_type) == str(type(True)) or str(other.data_type) == str(type(True)):
+                return NotImplemented
+            elif self.is_same_type(other):
                 if self.is_same_shape(other):
                     return self.perform_array_operator(other, operator)
                 else:

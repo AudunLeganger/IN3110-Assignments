@@ -19,6 +19,9 @@ def test_add_1d():
     assert 11 + arr1 == Array((3,), 8, 1, 11)
     assert arr2+2 == 2+arr2
     assert arr1 + arr3 == Array((3,), 4, 5, 20)
+    arr4 = Array((2,), True, False)
+    arr5 = Array((2,), True, True)
+    assert arr4 + arr5 == NotImplemented
 
 def test_sub_1d():
     arr1 = Array((3,), -3, -10, 0)
@@ -106,9 +109,8 @@ if __name__ == "__main__":
     test_smallest_1d()
 
     # Task 6: 2d tests
-    '''
+ 
     test_add_2d()
     test_mult_2d()
     test_same_2d()
     test_mean_2d()
-    '''
