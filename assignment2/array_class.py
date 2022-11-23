@@ -65,6 +65,7 @@ class Array:
     def establish_data_structure(self,shape,values):
         self.values = []
         for i in range(len(shape)):
+            cur_length = shape[i]
             # Iterates over shape
             pass
 
