@@ -2,8 +2,17 @@ from array_class import Array
 import numpy as np
 arr1 = Array((3,2),1,2,3,5,2,5)
 arr2 = Array((3,),2,5,8)
-lst = []
-np_arr = np.array([[1,2,3],[4,5,6]]) #2,3
-print(np_arr.tolist())
-np_arr_3d = np.array([[[1,2,3],[4,5,6],[7,8,9],[10,11,12]],[[13,14,15],[16,17,18],[19,20,21],[22,23,24]]])
-print(np_arr_3d.tolist()) #
+arr3 = Array((2,3,2),1,2,3,4,5,6,7,8,9,10,11,12)
+'''
+arr_2d =np.zeros([3,5])
+print(arr_2d)
+print(arr_2d.tolist())
+print("-------------------")
+arr_3d = np.zeros([4,3,2])
+#print(arr_3d)
+#print(arr_3d.tolist())
+# np_arr_3d = np.zeros([4,3,2])
+#print(np_arr_3d)
+'''
+print(arr3.values)
+print(np.zeros([2,3,2]).tolist())

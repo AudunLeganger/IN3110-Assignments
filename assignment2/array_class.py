@@ -35,7 +35,7 @@ class Array:
             raise ValueError("Array dimensions do not match value count")
         
         self.shape = shape
-        self.values = values
+        self.values = self.make_data_structure(shape,values)
         
     
     def is_homogenous(self, values):
@@ -62,12 +62,26 @@ class Array:
             return True
         return False
     
-    def establish_data_structure(self,shape,values):
-        self.values = []
-        for i in range(len(shape)):
+    def make_data_structure(self,shape,values):
+        '''Iterates through the arguments in "shape", and calls on make_nested_list accordingly
+        Returns:
+            list: nested list containing the data in values as specified by the dimensions in "shape"'''
+        cur_values = list(values)
+        for i in range(len(shape)-1, 0, -1):
             cur_length = shape[i]
-            # Iterates over shape
-            pass
+            cur_values = self.make_nested_list(cur_length,cur_values)
+        return cur_values
+    
+    def make_nested_list(self, list_length, values):
+        '''Groups list elements of list "values" in new list of length "list_length"
+        Retruns:
+            list: list containing nested lists'''
+        iterations = int((len(values)/list_length))
+        nested_list = []
+        for i in range(iterations):
+            new_element = values[i*list_length : (i*list_length + list_length)]
+            nested_list.append(new_element)
+        return nested_list
 
 
     def flat_array(self):
