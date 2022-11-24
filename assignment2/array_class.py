@@ -93,6 +93,17 @@ class Array:
         for _ in range(len(self.shape[1:])):
             flat_array = list(chain(*flat_array))
         return flat_array
+    
+    def flatten_list(self,lst):
+        return list(self.flatten_list_recursive(lst))
+
+    def flatten_list_recursive(self, lst):
+        for item in lst:
+            if isinstance(item, list):
+                yield from self.flatten_list_recursive(item)
+            else:
+                yield item
+        
 
     def __str__(self):
         """Returns a nicely printable string representation of the array.
@@ -101,7 +112,16 @@ class Array:
             str: A string representation of the array.
 
         """
-        pass
+        return str(self.values)
+
+    def __getitem__(self, index):
+        if len(self.shape) == 1:
+            return self.values[index]
+        else:
+            element_list = self.values[index]
+            element_list = self.flatten_list(element_list)
+            new_shape = self.shape[1:]
+            return Array(new_shape, *element_list)
 
     def __add__(self, other):
         """Element-wise adds Array with another Array or number.
