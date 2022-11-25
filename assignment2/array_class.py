@@ -36,10 +36,14 @@ class Array:
         
         self.shape = shape
         self.values = self.make_data_structure(shape,values)
+        self.values_flat = list(values)
+        self.data_type = type(values[0])
         
     
     def is_homogenous(self, values):
-        '''Returns True if elements of array are of same type. If not, returns False'''
+        '''Check for data type homogineity of array
+        Returns:
+            bool: True if elements are of similar data type, False if not'''
         data_type = type(values[0])
         for value in values:
             if data_type != type(value):
@@ -105,16 +109,83 @@ class Array:
                 yield item
         
 
+    def have_similar_data_type(self, other):
+        '''Checks wether or not two arrays have similar element data types, and as such can be used in mathematical operations
+        
+        Returns:
+            bool: True if arrays are similar, False if not
+        '''
+        return self.data_type == other.data_type
+    
+    def have_similar_shapes(self, other):
+        '''Checks wether or not two arra
+        
+        Returns:
+            bool: True if arrays have similar shapes, False if not
+        '''
+        
+
+    def perform_mathematical_operation(self, other, operator):
+        '''Returns the resulting array after performing a mathematical operation on it.
+        
+        Returns:
+            Array: The resulting array after performing the mathematical operation
+        '''
+        if isinstance(self.data_type, bool):
+            return NotImplemented
+        if isinstance(other, int) or isinstance(other, float):
+            return self.perform_scalar_operation(other, operator)
+        elif isinstance(other, bool):
+            return NotImplemented
+        elif isinstance(other, Array):
+            if not self.have_similar_data_type(other):
+                raise TypeError("Array elements have different data types")
+            if not self.have_similar_shapes(other):
+                raise ValueError("Arrays have different shapes")
+            return self.perform_array_operation(self,other,operator)
+        raise TypeError("Recieved uenxpected type")
+    
+    def perform_scalar_operation(self, scalar, operator):
+        '''Performs a scalar operation (+|-|*) with each array element
+        
+        Returns:
+            Array: The modified array object after performing the scalar operation
+        '''
+        if operator == "+":
+            for index in range(len(self.values_flat)):
+                self.values_flat[index] = self.values_flat[index] + scalar
+        elif operator == "-":
+            for index in range(len(self.values_flat)):
+                self.values_flat[index] = self.values_flat[index] - scalar
+        elif operator == "*":
+            for index in range(len(self.values_flat)):
+                self.values_flat[index] = self.values_flat[index] * scalar
+        else:
+            raise TypeError("Recieved unexpected operator:", operator)
+        new_values = self.make_data_structure(self.shape, self.values_flat)
+        self.values = new_values
+        return self
+
+    def perform_array_operation(self, other):
+        pass
+
+
+
     def __str__(self):
-        """Returns a nicely printable string representation of the array.
+        '''Returns a nicely printable string representation of the array.
 
         Returns:
             str: A string representation of the array.
 
-        """
+        '''
         return str(self.values)
 
     def __getitem__(self, index):
+        '''Returns the item at the given index.
+        
+        Returns:
+            Element: The element at the given index
+        '''
         if len(self.shape) == 1:
             return self.values[index]
         else:

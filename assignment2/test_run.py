@@ -14,7 +14,4 @@ arr_3d = np.zeros([4,3,2])
 # np_arr_3d = np.zeros([4,3,2])
 #print(np_arr_3d)
 '''
-multi_list = arr3.values
-#print(list(arr3.flatten_list(multi_list)))
-print(arr3)
-print(arr3[1][1][0])
+print(arr1.perform_mathematical_operation(10,"*"))
